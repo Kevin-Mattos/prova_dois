@@ -6,6 +6,10 @@
 package com.mycompany.lab_prova_dois.ui.compra;
 
 import com.mycompany.lab_prova_dois.repository.Repository;
+import com.mycompany.lab_prova_dois.repository.model.Item;
+import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowItems;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,10 +21,22 @@ public class CompraController extends Observable {
     
     Repository repo;
     private CompraState state;
+    private List<Item> items;
+    private List<Item> cart;
     
     CompraController(Repository repo) {
         this.repo = repo;
-        state = new CompraState();
+        state = new CompraState();   
+        cart = new ArrayList();
+    }
+    
+    public void getItens() {
+        items = repo.getItems();
+        setState(new ShowItems(items));
+    }
+    
+    public void addToCart(Item item) {
+        cart.add(item);
     }
     
     public CompraState getState() {
@@ -35,6 +51,5 @@ public class CompraController extends Observable {
     private void notifyListeners() {
         setChanged();
 	notifyObservers();
-    }    
-    
+    }     
 }

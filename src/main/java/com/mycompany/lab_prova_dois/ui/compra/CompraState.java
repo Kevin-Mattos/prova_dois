@@ -13,10 +13,14 @@ import java.util.List;
  * @author kevin
  */
 public class CompraState {
-    public class ShowItems extends CompraState {
+    static public class ShowItems extends CompraState {
         private List<Item> items;
         ShowItems(List<Item> items){
             this.items = items;
         }
+
+        public List<Item> getItems() {
+            return items;
+        }        
     }
 }

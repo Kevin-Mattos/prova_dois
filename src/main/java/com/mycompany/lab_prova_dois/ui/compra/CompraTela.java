@@ -24,6 +24,7 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         initComponents();
         controller = new CompraController(Repository.getInstance());
         controller.addObserver(this);
+        controller.getItens();
     }
 
     /**
@@ -90,6 +91,7 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
     public void update(Observable o, Object o1) {
         CompraState state = ((CompraController) o).getState();
         if (state instanceof ShowItems) {
+            System.out.println(((ShowItems) state).getItems());
         }
     }
 
