@@ -6,8 +6,11 @@
 package com.mycompany.lab_prova_dois.ui.compra;
 
 import com.mycompany.lab_prova_dois.repository.Repository;
+import com.mycompany.lab_prova_dois.repository.model.CartItem;
 import com.mycompany.lab_prova_dois.repository.model.Item;
+import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowError;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowItems;
+import com.mycompany.lab_prova_dois.ui.compra.CompraState.UpdateCart;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -19,10 +22,10 @@ import java.util.Observer;
  */
 public class CompraController extends Observable {
     
-    Repository repo;
+    private Repository repo;
     private CompraState state;
     private List<Item> items;
-    private List<Item> cart;
+    private List<CartItem> cart;
     
     CompraController(Repository repo) {
         this.repo = repo;
@@ -35,8 +38,36 @@ public class CompraController extends Observable {
         setState(new ShowItems(items));
     }
     
-    public void addToCart(Item item) {
-        cart.add(item);
+    public void addToCart(int itemId, int quantity) {
+        Item item = getItemForId(itemId);
+        if(item == null){
+            setState(new ShowError("Selecione_id_valido"));
+            return;
+        }
+        cart.add(new CartItem(item, quantity));
+        setState(new UpdateCart(cart));
+    }
+    
+    public void removeFromCart(int num) {
+        try {
+            cart.remove(num);//todo erro
+            setState(new UpdateCart(cart));
+        } catch(IndexOutOfBoundsException e) {
+            setState(new ShowError("Remova_Valido_id"));
+        }        
+    }
+    
+    public void cleanCart() {
+        cart.clear();
+        setState(new UpdateCart(cart));
+    }
+    
+    public float getTotalValue() {
+        float value = 0f;
+        for(CartItem cartItem: cart) {
+            value += cartItem.getTotalValue();
+        }
+        return value;
     }
     
     public CompraState getState() {
@@ -52,4 +83,12 @@ public class CompraController extends Observable {
         setChanged();
 	notifyObservers();
     }     
+
+    private Item getItemForId(int id) {
+        for(Item item: items) {
+            if(item.getId() == id)
+                return item;
+        }
+        return null;
+    }
 }
