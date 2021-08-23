@@ -5,6 +5,8 @@
  */
 package com.mycompany.lab_prova_dois;
 
+import com.mycompany.lab_prova_dois.ui.compra.CompraTela;
+
 /**
  *
  * @author kevin
@@ -12,7 +14,7 @@ package com.mycompany.lab_prova_dois;
 public class Executora {
     
     public static void main(String[] args) {
-        
+        new CompraTela().setVisible(true);
     }
     
 }
