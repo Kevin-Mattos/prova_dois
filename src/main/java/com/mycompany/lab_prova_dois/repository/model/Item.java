@@ -46,9 +46,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" + "id=" + id + ", description=" + description + ", unitaryValue=" + unitaryValue + '}';
-    }
-    
-    
-    
+        return "\nItem{" + "id=" + id + ", description=" + description + ", unitaryValue=" + unitaryValue + "}";
+    }    
 }
