@@ -6,7 +6,12 @@
 package com.mycompany.lab_prova_dois.ui.compra;
 
 import com.mycompany.lab_prova_dois.repository.Repository;
+import com.mycompany.lab_prova_dois.repository.model.CartItem;
+import com.mycompany.lab_prova_dois.repository.model.Item;
+import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowError;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowItems;
+import com.mycompany.lab_prova_dois.ui.compra.CompraState.UpdateCart;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -25,6 +30,19 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         controller = new CompraController(Repository.getInstance());
         controller.addObserver(this);
         controller.getItens();
+    }
+    
+    private void showItens(List<Item> items) {
+        System.out.println(items);        
+    }    
+
+    private void updateCart(List<CartItem> cartItems) {
+        System.out.println(cartItems);
+        
+    }
+    
+    private void showError(String error) {
+        System.out.println(error);
     }
 
     /**
@@ -91,10 +109,15 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
     public void update(Observable o, Object o1) {
         CompraState state = ((CompraController) o).getState();
         if (state instanceof ShowItems) {
-            System.out.println(((ShowItems) state).getItems());
+            showItens(((ShowItems) state).getItems());
+        }
+        else if (state instanceof UpdateCart) {
+            updateCart(((UpdateCart) state).getCartItems());
+        }
+        else if(state instanceof ShowError) {
+            showError(((ShowError) state).getError());
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }
