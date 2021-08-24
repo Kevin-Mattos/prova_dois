@@ -42,10 +42,5 @@ public class Item {
 
     public void setUnitaryValue(float unitaryValue) {
         this.unitaryValue = unitaryValue;
-    }
-
-    @Override
-    public String toString() {
-        return "\nItem{" + "id=" + id + ", description=" + description + ", unitaryValue=" + unitaryValue + "}";
-    }    
+    }  
 }

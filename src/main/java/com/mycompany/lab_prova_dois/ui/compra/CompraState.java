@@ -53,4 +53,16 @@ public class CompraState {
             return res;
         }
     }
+        static public class FinishedExportingFile extends CompraState {
+
+        private String res;
+
+        FinishedExportingFile(String res) {
+            this.res = res;
+        }
+
+        public String getMessage() {
+            return res;
+        }
+    }
 }
