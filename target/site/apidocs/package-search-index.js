@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.mycompany.lab_prova_dois"},{"l":"com.mycompany.lab_prova_dois.repository"},{"l":"com.mycompany.lab_prova_dois.repository.model"},{"l":"com.mycompany.lab_prova_dois.ui.compra"},{"l":"com.mycompany.lab_prova_dois.util"}]
