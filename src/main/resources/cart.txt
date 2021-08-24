@@ -1,5 +1,15 @@
 Mercadinho Ifsc
-Data: 24/08/2021 18:19
+Data: 24/08/2021 18:55
 
 Item           Descrição           Quantidade Valor Unitário    Valor Total
-                                                       Total           0,00
+0              Refrigerante 2L              2           6,00          12,00
+1              Refrigerante 2L              2           6,00          12,00
+2              Refrigerante 2L              2           6,00          12,00
+3              Refrigerante 2L              2           6,00          12,00
+4              Refrigerante 2L              2           6,00          12,00
+5              Refrigerante 2L              2           6,00          12,00
+6              Refrigerante 2L              2           6,00          12,00
+7              Refrigerante 2L              2           6,00          12,00
+8              Refrigerante 2L              2           6,00          12,00
+9              Refrigerante 2L              2           6,00          12,00
+                                                       Total         120,00

@@ -57,11 +57,11 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
             it.add(item.toString());
         }
         
-        jList1.setListData(it.toArray(String[]::new));
+        shopList.setListData(it.toArray(String[]::new));
     }    
 
     private void updateCart(String text) {
-        jTextArea1.setText(text);
+        cartText.setText(text);
     }
     
     private void showError(String error) {
@@ -92,39 +92,39 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        shopList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        quantityAddField = new javax.swing.JTextField();
+        addButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        cartText = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        removeIdField = new javax.swing.JTextField();
+        removeButton = new javax.swing.JButton();
+        cleanCartButton = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        exportPdfButton = new javax.swing.JButton();
+        exportTxtButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Produtos");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        shopList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(shopList);
 
         jLabel2.setText("Quantidade");
 
-        jButton1.setText("Adicionar Produto");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addButton.setText("Adicionar Produto");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addButtonActionPerformed(evt);
             }
         });
 
@@ -144,10 +144,10 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1))))
+                                .addComponent(quantityAddField))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(66, 66, 66)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))
+                        .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -160,31 +160,31 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(quantityAddField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(addButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jLabel3.setText("Produtos");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        cartText.setColumns(20);
+        cartText.setRows(5);
+        jScrollPane2.setViewportView(cartText);
 
         jLabel4.setText("Número do item");
 
-        jButton2.setText("Remover");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        removeButton.setText("Remover");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                removeButtonActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Limpar Venda");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        cleanCartButton.setText("Limpar Venda");
+        cleanCartButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                cleanCartButtonActionPerformed(evt);
             }
         });
 
@@ -202,13 +202,13 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(removeIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 281, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cleanCartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -221,23 +221,23 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(removeIdField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeButton)
+                    .addComponent(cleanCartButton))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jButton4.setText("Exportar PDF");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        exportPdfButton.setText("Exportar PDF");
+        exportPdfButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                exportPdfButtonActionPerformed(evt);
             }
         });
 
-        jButton5.setText("Exportar em TXT");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        exportTxtButton.setText("Exportar em TXT");
+        exportTxtButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                exportTxtButtonActionPerformed(evt);
             }
         });
 
@@ -247,9 +247,9 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(exportPdfButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(exportTxtButton, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -257,8 +257,8 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(57, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(exportPdfButton)
+                    .addComponent(exportTxtButton))
                 .addContainerGap())
         );
 
@@ -285,28 +285,28 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int index = jList1.getSelectedIndex();
-        String text = jTextField1.getText();
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        int index = shopList.getSelectedIndex();
+        String text = quantityAddField.getText();
         controller.addToCart(index, text);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_addButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String text = jTextField2.getText();
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        String text = removeIdField.getText();
         controller.removeFromCart(text);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_removeButtonActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void cleanCartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanCartButtonActionPerformed
         controller.cleanCart();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_cleanCartButtonActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void exportPdfButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportPdfButtonActionPerformed
         controller.exportPdf();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_exportPdfButtonActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void exportTxtButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportTxtButtonActionPerformed
         controller.exportTxt();
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_exportTxtButtonActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -360,32 +360,32 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton addButton;
+    private javax.swing.JTextArea cartText;
+    private javax.swing.JButton cleanCartButton;
+    private javax.swing.JButton exportPdfButton;
+    private javax.swing.JButton exportTxtButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField quantityAddField;
+    private javax.swing.JButton removeButton;
+    private javax.swing.JTextField removeIdField;
+    private javax.swing.JList<String> shopList;
     // End of variables declaration//GEN-END:variables
 
     private void setView() {
         
 //        jTextArea1.disable();
-            jTextArea1.setFont(new Font("monospaced", Font.PLAIN, 12));
+            cartText.setFont(new Font("monospaced", Font.PLAIN, 12));
         
-        ((AbstractDocument)jTextField1.getDocument()).setDocumentFilter(new DocumentFilter(){
+        ((AbstractDocument)quantityAddField.getDocument()).setDocumentFilter(new DocumentFilter(){
         Pattern regEx = Pattern.compile("\\d*");
             @Override
             public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
@@ -397,7 +397,7 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
             }
     });
         
-        ((AbstractDocument)jTextField2.getDocument()).setDocumentFilter(new DocumentFilter(){
+        ((AbstractDocument)removeIdField.getDocument()).setDocumentFilter(new DocumentFilter(){
         Pattern regEx = Pattern.compile("\\d*");
             @Override
             public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
