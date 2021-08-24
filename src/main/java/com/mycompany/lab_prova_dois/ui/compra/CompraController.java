@@ -38,7 +38,12 @@ public class CompraController extends Observable {
         setState(new ShowItems(items));
     }
     
-    public void addToCart(int itemId, int quantity) {
+    public void addToCart(int itemId, String quantityTxt) {
+        if(!validate(quantityTxt)){
+            setState(new ShowError("Quantidade_valida_id"));
+            return;
+        }
+        int quantity = Integer.valueOf(quantityTxt.isBlank() ? "1" : quantityTxt);
         Item item = getItemForId(itemId);
         if(item == null){
             setState(new ShowError("Selecione_id_valido"));
@@ -48,12 +53,17 @@ public class CompraController extends Observable {
         setState(new UpdateCart(cart));
     }
     
-    public void removeFromCart(int num) {
+    public void removeFromCart(String numTxt) {
+        if(!validate(numTxt)){
+            setState(new ShowError("id_invalido_remover"));
+            return;
+        }
         try {
+            int num = Integer.valueOf(numTxt);
             cart.remove(num);//todo erro
             setState(new UpdateCart(cart));
         } catch(IndexOutOfBoundsException e) {
-            setState(new ShowError("Remova_Valido_id"));
+            setState(new ShowError("id_invalido_remover"));
         }        
     }
     
@@ -101,5 +111,14 @@ public class CompraController extends Observable {
                 return item;
         }
         return null;
+    }
+
+    private boolean validate(String quantityTxt) {
+        try {
+            Integer.parseInt(quantityTxt);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 }

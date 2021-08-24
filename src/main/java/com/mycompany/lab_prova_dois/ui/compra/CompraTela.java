@@ -260,11 +260,14 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        controller.addToCart(0, 2);
+        int index = jList1.getSelectedIndex();
+        String text = jTextField1.getText();        
+        controller.addToCart(index, text);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        controller.removeFromCart(0);
+        String text = jTextField2.getText();
+        controller.removeFromCart(text);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
