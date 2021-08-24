@@ -7,6 +7,7 @@ package com.mycompany.lab_prova_dois.ui.compra;
 
 import com.mycompany.lab_prova_dois.repository.model.CartItem;
 import com.mycompany.lab_prova_dois.repository.model.Item;
+import com.mycompany.lab_prova_dois.util.ResEnum;
 import java.util.List;
 
 /**
@@ -30,38 +31,38 @@ public class CompraState {
 
     static public class UpdateCart extends CompraState {
 
-        private List<CartItem> items;
+        private String text;
 
-        UpdateCart(List<CartItem> items) {
-            this.items = items;
+        UpdateCart(String text) {
+            this.text = text;
         }
 
-        public List<CartItem> getCartItems() {
-            return items;
+        public String getText() {
+            return text;
         }
     }
 
     static public class ShowError extends CompraState {
 
-        private String res;
+        private ResEnum res;
 
-        ShowError(String res) {
+        ShowError(ResEnum res) {
             this.res = res;
         }
 
-        public String getError() {
+        public ResEnum getRes() {
             return res;
         }
     }
         static public class FinishedExportingFile extends CompraState {
 
-        private String res;
+        private ResEnum res;
 
-        FinishedExportingFile(String res) {
+        FinishedExportingFile(ResEnum res) {
             this.res = res;
         }
 
-        public String getMessage() {
+        public ResEnum getRes() {
             return res;
         }
     }

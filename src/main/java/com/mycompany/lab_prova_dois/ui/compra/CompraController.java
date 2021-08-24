@@ -12,9 +12,21 @@ import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowError;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowItems;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.UpdateCart;
 import com.mycompany.lab_prova_dois.util.CartReportWriter;
+import static com.mycompany.lab_prova_dois.util.CartReportWriter.offset;
+import static com.mycompany.lab_prova_dois.util.CartReportWriter.titles;
+import com.mycompany.lab_prova_dois.util.ResEnum;
+import static com.mycompany.lab_prova_dois.util.StringHelper.getCartValues;
+import static com.mycompany.lab_prova_dois.util.StringHelper.getLine;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observable;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -36,40 +48,41 @@ public class CompraController extends Observable {
     public void getItens() {
         items = repo.getItems();
         setState(new ShowItems(items));
+        setState(new UpdateCart(getText()));
     }
     
     public void addToCart(int itemId, String quantityTxt) {
-        if(!validate(quantityTxt)){
-            setState(new ShowError("Quantidade_valida_id"));
+        if(!quantityTxt.isBlank() && !validate(quantityTxt)){
+            setState(new ShowError(ResEnum.FAILED_ADD_QUANTITY));
             return;
         }
         int quantity = Integer.valueOf(quantityTxt.isBlank() ? "1" : quantityTxt);
         Item item = getItemForId(itemId);
         if(item == null){
-            setState(new ShowError("Selecione_id_valido"));
+            setState(new ShowError(ResEnum.FAILED_ADD_ID));
             return;
         }
         cart.add(new CartItem(item, quantity));
-        setState(new UpdateCart(cart));
+        setState(new UpdateCart(getText()));
     }
     
     public void removeFromCart(String numTxt) {
         if(!validate(numTxt)){
-            setState(new ShowError("id_invalido_remover"));
+            setState(new ShowError(ResEnum.FAILED_REMOVE_INVALID_ID));
             return;
         }
         try {
             int num = Integer.valueOf(numTxt);
             cart.remove(num);//todo erro
-            setState(new UpdateCart(cart));
+            setState(new UpdateCart(getText()));
         } catch(IndexOutOfBoundsException e) {
-            setState(new ShowError("id_invalido_remover"));
+            setState(new ShowError(ResEnum.FAILED_REMOVE_INVALID_ID));
         }        
     }
     
     public void cleanCart() {
         cart.clear();
-        setState(new UpdateCart(cart));
+        setState(new UpdateCart(getText()));
     }
     
     public float getTotalValue() {
@@ -80,14 +93,51 @@ public class CompraController extends Observable {
         return value;
     }
     
+    
+
+    public String getText() {
+        String formattedTime = getFormattedTime();
+        StringBuilder builder = new StringBuilder();
+        builder.append("Mercadinho Ifsc\n");
+        builder.append("Data: "+ formattedTime + "\n");
+        builder.append("\n");
+        
+        String line = getLine(titles);
+        builder.append(line);
+        builder.append("\n");
+        
+
+        Locale locale = new Locale("pt", "BR");
+        NumberFormat nf2 = NumberFormat.getInstance(locale);
+        Currency currency = Currency.getInstance(locale);
+        nf2.setMinimumFractionDigits(currency.getDefaultFractionDigits());
+
+        for (int i = 0; i < cart.size(); i++) {
+            CartItem cartItem = cart.get(i);
+            String[] values = getCartValues(i, cartItem, nf2);
+            line = getLine(values);
+            builder.append(line);
+            builder.append("\n");
+        }
+   
+        line = "Total";
+        builder.append(StringUtils.leftPad(line, offset * (titles.length - 1), ""));
+
+        line = nf2.format(getTotalValue());;
+        builder.append(StringUtils.leftPad(line, offset, ""));
+        
+        return builder.toString();
+    }
+    
     public void exportPdf() {
-        CartReportWriter.writePdf(cart, getTotalValue());
-        setState(new CompraState.FinishedExportingFile("SUCCESS_RESOURCE"));
+        String formattedTime = getFormattedTime();
+        CartReportWriter.writePdf(cart, getTotalValue(), formattedTime);
+        setState(new CompraState.FinishedExportingFile(ResEnum.SUCCESS_CREATED_PDF));
     }
     
     public void exportTxt() {
-        CartReportWriter.writeTxt(cart, getTotalValue());
-        setState(new CompraState.FinishedExportingFile("SUCCESS_RESOURCE"));
+        CartReportWriter.writeTxt(getText());
+        setState(new CompraState.FinishedExportingFile(ResEnum.SUCCESS_CREATED_TXT));
 
     }
     
@@ -113,12 +163,18 @@ public class CompraController extends Observable {
         return null;
     }
 
-    private boolean validate(String quantityTxt) {
+    private boolean validate(String num) {
         try {
-            Integer.parseInt(quantityTxt);
+            Integer.parseInt(num);
             return true;
         } catch (NumberFormatException e){
             return false;
         }
+    }
+
+    private String getFormattedTime() {
+        Date date = Date.from(Instant.now());
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");        
+        return dt1.format(date);
     }
 }
