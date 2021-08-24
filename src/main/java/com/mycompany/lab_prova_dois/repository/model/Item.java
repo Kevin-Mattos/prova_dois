@@ -5,6 +5,9 @@
  */
 package com.mycompany.lab_prova_dois.repository.model;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  *
  * @author kevin
@@ -38,9 +41,20 @@ public class Item {
 
     public float getUnitaryValue() {
         return unitaryValue;
+    }    
+
+    private String getFormattedUnitaryValue() {
+        Locale locale = new Locale("pt", "BR");
+        NumberFormat nf2 = NumberFormat.getCurrencyInstance(locale);
+        return nf2.format(unitaryValue);
     }
 
     public void setUnitaryValue(float unitaryValue) {
         this.unitaryValue = unitaryValue;
-    }  
+    }
+
+    @Override
+    public String toString() {
+        return description + " - (" + getFormattedUnitaryValue() + ')';
+    }    
 }

@@ -6,13 +6,18 @@
 package com.mycompany.lab_prova_dois.util;
 
 import com.mycompany.lab_prova_dois.repository.model.CartItem;
+import static com.mycompany.lab_prova_dois.util.StringHelper.getCartValues;
+import static com.mycompany.lab_prova_dois.util.StringHelper.getLine;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -27,9 +32,9 @@ import org.apache.pdfbox.text.PDFTextStripper;
 public class CartReportWriter {
 
     public static int offset = 15;
-    private static String[] titles = {"Item", "Descricao", "Quantidade", "Valor Unitário", "Valor Total"};
+    public static String[] titles = {"Item", "Descrição", "Quantidade", "Valor Unitário", "Valor Total"};
 
-    public static void writePdf(List<CartItem> cart, float totalValue) {
+    public static void writePdf(List<CartItem> cart, float totalValue, String formattedTime) {
         try (PDDocument doc = new PDDocument()) {
 
             PDPage myPage = new PDPage();
@@ -42,6 +47,14 @@ public class CartReportWriter {
                 cont.setLeading(14.5f);
                 String line;
                 cont.newLineAtOffset(5, 700);
+
+                line = ("Mercadinho Ifsc");
+                cont.showText(line);
+                cont.newLine();
+                line = ("data: " + formattedTime);
+                cont.showText(line); 
+                cont.newLine();
+                cont.newLine();
 
                 line = getLine(titles);
                 cont.showText(line);
@@ -56,6 +69,7 @@ public class CartReportWriter {
                     String[] values = getCartValues(i, cart.get(i), nf2);
                     line = getLine(values);
                     cont.showText(line);
+                    cont.newLine();
                 }
 
                 cont.newLine();
@@ -69,7 +83,7 @@ public class CartReportWriter {
                 cont.endText();
 
             } catch (IOException ex) {
-
+//TODO
             }
             
             File dir = new File("src/main/resources");
@@ -78,46 +92,17 @@ public class CartReportWriter {
             
             doc.save("src/main/resources/cart.pdf");
         } catch (IOException ex) {
-
+//TODO
         }
     }
 
-    public static void writeTxt(List<CartItem> cart, float totalValue) {
-        writePdf(cart, totalValue);
-        try {
-            PrintWriter writer = new PrintWriter("src/main/resources/cart.txt");
-            File myFile = new File("src/main/resources/cart.pdf");
+    public static void writeTxt(String text) {
 
-            try (PDDocument doc = PDDocument.load(myFile)) {
-                PDFTextStripper stripper = new PDFTextStripper();
-                String text = stripper.getText(doc);
-                writer.write(text);
-                writer.close();
-                myFile.delete();
-            }
-
-        } catch (IOException ex) {
-
+        try (PrintWriter writer = new PrintWriter("src/main/resources/cart.txt")) {
+            writer.write(text);
+        } catch (FileNotFoundException ex) {
+            //TODO
         }
 
     }
-
-    private static String getLine(String[] values) {
-        String line = "";
-        for (String title : values) {
-            line += StringUtils.leftPad(title, offset, "");
-        }
-        return line;
-    }
-
-    private static String[] getCartValues(int index, CartItem cartItem, NumberFormat nf2) {
-        String desc = cartItem.getDescription();
-        int qtd = cartItem.getQuantity();
-        String value = nf2.format(cartItem.getUnitaryValue());
-        String totalItemValue = nf2.format(cartItem.getTotalValue());
-
-        String[] values = {String.valueOf(index), desc, String.valueOf(qtd), value, totalItemValue};
-        return values;
-    }
-
 }

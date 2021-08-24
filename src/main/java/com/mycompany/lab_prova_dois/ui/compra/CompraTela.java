@@ -12,14 +12,25 @@ import com.mycompany.lab_prova_dois.ui.compra.CompraState.FinishedExportingFile;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowError;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowItems;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.UpdateCart;
+import static com.mycompany.lab_prova_dois.util.CartReportWriter.offset;
+import static com.mycompany.lab_prova_dois.util.CartReportWriter.titles;
+import static com.mycompany.lab_prova_dois.util.StringHelper.getCartValues;
+import static com.mycompany.lab_prova_dois.util.StringHelper.getLine;
+import java.awt.Font;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -40,19 +51,34 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
     }
     
     private void showItens(List<Item> items) {
-        System.out.println(items);
+        
+        ArrayList<String> it = new ArrayList();
+        for (Item item : items) {
+            it.add(item.toString());
+        }
+        
+        jList1.setListData(it.toArray(String[]::new));
     }    
 
-    private void updateCart(List<CartItem> cartItems) {
-        System.out.println(cartItems);        
+    private void updateCart(String text) {
+        jTextArea1.setText(text);
     }
     
     private void showError(String error) {
-        System.out.println(error);
+        showErrorJOptionPane(error);
     }
     
     private void showFinishedExportingMessage(String message) {
         System.out.println(message);
+        showSuccessJOptionPane(message);
+    }
+    
+    private void showErrorJOptionPane(String msg) {
+        JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    private void showSuccessJOptionPane(String msg) {
+        JOptionPane.showMessageDialog(null, msg, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -260,11 +286,14 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        controller.addToCart(0, 2);
+        int index = jList1.getSelectedIndex();
+        String text = jTextField1.getText();
+        controller.addToCart(index, text);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        controller.removeFromCart(0);
+        String text = jTextField2.getText();
+        controller.removeFromCart(text);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -321,13 +350,13 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
             showItens(((ShowItems) state).getItems());
         }
         else if (state instanceof UpdateCart) {
-            updateCart(((UpdateCart) state).getCartItems());
+            updateCart(((UpdateCart) state).getText());
         }
         else if(state instanceof ShowError) {
-            showError(((ShowError) state).getError());
+            showError(((ShowError) state).getRes().res);
         }
         else if (state instanceof FinishedExportingFile) {
-            showFinishedExportingMessage(((FinishedExportingFile) state).getMessage());
+            showFinishedExportingMessage(((FinishedExportingFile) state).getRes().res);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -353,7 +382,8 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
 
     private void setView() {
         
-        jTextArea1.disable();
+//        jTextArea1.disable();
+            jTextArea1.setFont(new Font("monospaced", Font.PLAIN, 12));
         
         ((AbstractDocument)jTextField1.getDocument()).setDocumentFilter(new DocumentFilter(){
         Pattern regEx = Pattern.compile("\\d*");
