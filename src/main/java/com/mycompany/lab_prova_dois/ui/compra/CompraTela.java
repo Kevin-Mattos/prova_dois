@@ -15,6 +15,11 @@ import com.mycompany.lab_prova_dois.ui.compra.CompraState.UpdateCart;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
 /**
  *
@@ -31,6 +36,7 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         controller = new CompraController(Repository.getInstance());
         controller.addObserver(this);
         controller.getItens();
+        setView();
     }
     
     private void showItens(List<Item> items) {
@@ -90,6 +96,11 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         jLabel2.setText("Quantidade");
 
         jButton1.setText("Adicionar Produto");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,8 +149,18 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         jLabel4.setText("Número do item");
 
         jButton2.setText("Remover");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Limpar Venda");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -179,8 +200,18 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         );
 
         jButton4.setText("Exportar PDF");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Exportar em TXT");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -225,6 +256,26 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        controller.addToCart(0, 2);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        controller.removeFromCart(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        controller.cleanCart();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        controller.exportPdf();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        controller.exportTxt();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -297,4 +348,34 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    private void setView() {
+        
+        jTextArea1.disable();
+        
+        ((AbstractDocument)jTextField1.getDocument()).setDocumentFilter(new DocumentFilter(){
+        Pattern regEx = Pattern.compile("\\d*");
+            @Override
+            public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
+                Matcher matcher = regEx.matcher(text);
+            if(!matcher.matches()){
+                return;
+            }
+            super.replace(fb, offset, length, text, attrs);
+            }
+    });
+        
+        ((AbstractDocument)jTextField2.getDocument()).setDocumentFilter(new DocumentFilter(){
+        Pattern regEx = Pattern.compile("\\d*");
+            @Override
+            public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, javax.swing.text.AttributeSet attrs) throws BadLocationException {
+                Matcher matcher = regEx.matcher(text);
+            if(!matcher.matches()){
+                return;
+            }
+            super.replace(fb, offset, length, text, attrs);
+            }
+    });
+        
+    }
 }
