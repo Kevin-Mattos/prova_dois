@@ -8,6 +8,7 @@ package com.mycompany.lab_prova_dois.ui.compra;
 import com.mycompany.lab_prova_dois.repository.Repository;
 import com.mycompany.lab_prova_dois.repository.model.CartItem;
 import com.mycompany.lab_prova_dois.repository.model.Item;
+import com.mycompany.lab_prova_dois.ui.compra.CompraState.FinishedExportingFile;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowError;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowItems;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.UpdateCart;
@@ -33,18 +34,20 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
     }
     
     private void showItens(List<Item> items) {
-        System.out.println(items);        
+        System.out.println(items);
     }    
 
     private void updateCart(List<CartItem> cartItems) {
-        System.out.println(cartItems);
-        
+        System.out.println(cartItems);        
     }
     
     private void showError(String error) {
         System.out.println(error);
     }
-
+    
+    private void showFinishedExportingMessage(String message) {
+        System.out.println(message);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -116,6 +119,9 @@ public class CompraTela extends javax.swing.JFrame implements Observer {
         }
         else if(state instanceof ShowError) {
             showError(((ShowError) state).getError());
+        }
+        else if (state instanceof FinishedExportingFile) {
+            showFinishedExportingMessage(((FinishedExportingFile) state).getMessage());
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

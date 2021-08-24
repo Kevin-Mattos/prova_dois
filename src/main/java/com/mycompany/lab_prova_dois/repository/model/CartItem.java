@@ -22,9 +22,21 @@ public class CartItem {
     public float getTotalValue() {
         return qtd * item.getUnitaryValue();
     }
+    
+    public String getDescription() {
+        return item.getDescription(); 
+    }
+    
+    public float getUnitaryValue() {
+        return item.getUnitaryValue(); 
+    }
+    
+    public int getQuantity() {
+        return qtd;
+    }
 
     @Override
     public String toString() {
-        return "CartItem{" + "qtd=" + qtd + ", item=" + item + '}';
+        return item.getDescription() + "    " + qtd + "    " + item.getUnitaryValue() + "    " + getTotalValue();
     }
 }

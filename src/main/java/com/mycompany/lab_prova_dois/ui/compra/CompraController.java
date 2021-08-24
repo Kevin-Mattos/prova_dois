@@ -11,10 +11,10 @@ import com.mycompany.lab_prova_dois.repository.model.Item;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowError;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.ShowItems;
 import com.mycompany.lab_prova_dois.ui.compra.CompraState.UpdateCart;
+import com.mycompany.lab_prova_dois.util.CartReportWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 /**
  *
@@ -68,6 +68,17 @@ public class CompraController extends Observable {
             value += cartItem.getTotalValue();
         }
         return value;
+    }
+    
+    public void exportPdf() {
+        CartReportWriter.writePdf(cart, getTotalValue());
+        setState(new CompraState.FinishedExportingFile("SUCCESS_RESOURCE"));
+    }
+    
+    public void exportTxt() {
+        CartReportWriter.writeTxt(cart, getTotalValue());
+        setState(new CompraState.FinishedExportingFile("SUCCESS_RESOURCE"));
+
     }
     
     public CompraState getState() {
